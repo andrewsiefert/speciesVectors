@@ -1,0 +1,15 @@
+.Rproj.user
+data/trait_dist.rds
+data/wfo_list.txt
+data/phylo_dist.rds
+data/sPlot_cooccur_counts.csv
+data/sPlotOpen.txt
+data/lenoir_cooccur_counts.csv
+data/sPlotOpen_header.txt
+vectors/pca/pca_32dim.rds
+vectors/pca/pca_64dim.rds
+.Rhistory
+.Rdata
+.httr-oauth
+.DS_Store
+speciesVectors.Rproj
