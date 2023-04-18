@@ -6,7 +6,7 @@ data/sPlot_cooccur_counts.csv
 data/sPlotOpen.txt
 data/lenoir_cooccur_counts.csv
 data/sPlotOpen_header.txt
-data/trait/
+data/trait/TRY_sPlotOpen.RData
 vectors/pca/pca_32dim.rds
 vectors/pca/pca_64dim.rds
 .Rhistory
