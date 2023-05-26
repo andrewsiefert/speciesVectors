@@ -8,6 +8,7 @@ d <- read_tsv("data/sPlotOpen.txt") %>% distinct(PlotObservationID, Species) %>%
 # read in Lenoir data
 bs <- read_csv("data/lenoir_data.csv")
 
+# select plots that contain at least one species in the Lenoir dataset
 keep_plots <- d %>%
   group_by(PlotObservationID) %>%
   summarize(keep = any(Species %in% bs$species_acc)) %>%
@@ -17,7 +18,7 @@ keep_plots <- d %>%
 d2 <- d %>%
   inner_join(keep_plots) %>%
   add_count(PlotObservationID) %>%
-  filter(n > 1)
+  filter(n > 1) # drop plots that only contain one species
 
 # create site by species occurrence matrix
 site_f <- factor(d2$PlotObservationID)
@@ -40,8 +41,10 @@ counts <- tibble(sp1 = co@i+1,
                  co = co@x) %>%
   filter(sp1 != sp2)
 
+# create species lookup table
 species <- tibble(id = 1:nrow(co),
                   species = levels(species_f))
 
+# save data
 write_csv(counts, "data/lenoir_cooccur_counts.csv")
 write_csv(species, "data/lenoir_cooccur_species_list.csv")

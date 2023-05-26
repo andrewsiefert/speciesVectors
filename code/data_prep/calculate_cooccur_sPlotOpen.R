@@ -5,7 +5,7 @@ library(Matrix)
 # read in sPlot data
 d <- read_tsv("data/sPlotOpen.txt") %>% distinct(PlotObservationID, Species)
 
-# drop bad species
+# drop bad species and plots with only one species
 keep_sp <- d %>%
   count(Species) %>%
   filter(str_detect(Species, " "))
@@ -38,9 +38,11 @@ counts <- tibble(sp1 = co@i+1,
                  co = co@x) %>%
   filter(sp1 != sp2)
 
+# create species lookup table
 species <- tibble(id = 1:nrow(co),
                   species = levels(species_f))
 
+# save data
 write_csv(counts, "data/sPlot_cooccur_counts.csv")
 write_csv(species, "data/sPlot_cooccur_species_list.csv")
 

@@ -9,11 +9,14 @@ import tensorflow as tf
 import pandas as pd
 
 
+
 def train_glove(d, dim, xmax, epochs=100, alpha=0.75, lr = 0.001):
 
+    # convert species ID's to zero indexing
     d['sp1'] = d['sp1'] - 1
     d['sp2'] = d['sp2'] - 1
 
+    # get number of species
     n_species = d.sp1.value_counts().shape[0]
 
 
@@ -28,25 +31,34 @@ def train_glove(d, dim, xmax, epochs=100, alpha=0.75, lr = 0.001):
     # specify model
     dim = int(dim)
 
+    # inputs (species ID's)
     sp1_input = Input(shape=(1,), dtype='int32', name='sp1_input')
     sp2_input = Input(shape=(1,), dtype='int32', name='sp2_input')
 
+    # initiate embedding layers (species vectors)
     embedding1 = Embedding(input_dim=n_species, output_dim=dim, name="species_embedding1", input_length=1)
     embedding2 = Embedding(input_dim=n_species, output_dim=dim, name="species_embedding2", input_length=1)
 
+    # initiate bias terms
     bias1 = Embedding(input_dim=n_species, output_dim=1, name="bias1", input_length=1)
     bias2 = Embedding(input_dim=n_species, output_dim=1, name="bias2", input_length=1)
 
+    # calculate species vectors
     sp1_emb = embedding1(sp1_input)
     sp2_emb = embedding2(sp2_input)
 
+    # calculate bias terms
     sp1_bias = bias1(sp1_input)
     sp2_bias = bias2(sp2_input)
 
+    # take dot product of vectors and add bias
     dp = Dot(axes=2, name='output')([sp1_emb, sp2_emb])
     output = Add()([dp, sp1_bias, sp2_bias])
 
+    # define model inputs and output
     m1 = Model(inputs=[sp1_input, sp2_input], outputs=[output])
+    
+    # print model summary
     m1.summary()
 
     # compile
@@ -58,6 +70,7 @@ def train_glove(d, dim, xmax, epochs=100, alpha=0.75, lr = 0.001):
                 callbacks=[EarlyStopping(monitor='val_loss', patience=3, mode='min', restore_best_weights=True)],
                 verbose=2)
 
+    # print minimum validation loss
     np.min(h1.history['val_loss'])
 
 
