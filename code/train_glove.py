@@ -11,6 +11,19 @@ import pandas as pd
 
 
 def train_glove(d, dim, xmax, epochs=100, alpha=0.75, lr = 0.001):
+    """
+    train_glove trains the GloVe algorithm on species co-occurrence data 
+
+    :param d: dataframe of species co-occurrence counts in long form
+                -1st column ('sp1'), species ID's for species 1 (must be consecutive integers starting at 1)
+                -2rd column ('sp2'), species ID's for species 2 (must be consecutive integers starting at 1)
+                -3rd column ('co'), co-occurrence counts for species 1 and 2 (must be >0) 
+    :param dim: number of dimensions
+    :param xmax: weighting function threshold 
+    :param epochs: number of training epochs
+    :param alpha: weighting function power
+    :param lr: learning rate
+    """
 
     # convert species ID's to zero indexing
     d['sp1'] = d['sp1'] - 1
