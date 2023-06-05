@@ -6,7 +6,6 @@ install.packages("keras")
 
 # If you don't already have Python installed:
 library(reticulate)
-
 path_to_python <- install_python()
 virtualenv_create("r-reticulate", python = path_to_python)
 
@@ -143,14 +142,14 @@ model %>%
 
 ## Extract species vectors
 
-vec1 <- get_weights(model$layers[[3]])[[1]]
-vec2 <- get_weights(model$layers[[4]])[[1]]
+vec1 <- get_weights(model$layers[[3]])[[1]]    # first set of vectors
+vec2 <- get_weights(model$layers[[4]])[[1]]    # second set of vectors
 
-vectors <- (vec1 + vec2)/2
+vectors <- (vec1 + vec2)/2                     # take elementwise average
 
-colnames(vectors) <- paste0("d", 1:dim)
+colnames(vectors) <- paste0("d", 1:dim)        # add dimension names
 
-out <- bind_cols(species, vectors)
+out <- bind_cols(species, vectors)             # attach species names
 
 
 
