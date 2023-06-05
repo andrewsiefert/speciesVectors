@@ -27,7 +27,7 @@ library(tidyverse)
 library(Matrix)
 
 ## Read in species occurrences from USA VegBank dataset (subset of sPlotOpen) ----
-d <- readRDS("data/demo/USA_VegBank.rds")
+d <- readRDS("demo/USA_VegBank.rds")
 
 
 ## Convert to site-by-species matrix ----
