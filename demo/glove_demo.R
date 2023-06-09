@@ -4,19 +4,31 @@ install.packages("keras")
 
 ## Configure R with a Python installation it can use ----
 
-# If you don't already have Python installed:
+# If you don't already have Python 3 installed, you can install it using the
+# reticulate package...
 library(reticulate)
-path_to_python <- install_python()
+path_to_python <- install_python()   # install Python and save path to interpreter
+
+#... or download and install it directly from https://www.python.org/downloads/
+
+# Create a virtual environment for running Tensorflow
 virtualenv_create("r-reticulate", python = path_to_python)
 
-# If you do have Python installed, skip install_python() and just supply path
-# to the Python executable
+# If you installed Python directly (not using reticulate), replace "path_to_python"
+# with the path to your Python interpreter.
+# To find the path in Windows:
+   # 1) Type ‘Python’ in the Windows Search Bar
+   # 2) Right-click on the Python App, and then select “Open file location“
+   # 3) Right-click on the Python shortcut, and then select Properties
+   # 4) Copy the path found in the "Target" box
+# To find the path on a Mac, open Python in the Applications folder and copy
+# the path found in the"Interpreter" box
 
 ## Install TensorFlow
 library(tensorflow)
-install_tensorflow(envname = "r-reticulate")
+install_tensorflow(envname = "r-reticulate", version = "2.12")
 
-# restart R and confirm that installation succeeded
+# Restart R and confirm that installation succeeded
 reticulate::use_virtualenv("r-reticulate")
 library(tensorflow)
 tf$constant("Hello Tensorflow!")
