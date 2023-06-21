@@ -26,7 +26,7 @@ virtualenv_create("r-reticulate", python = path_to_python)
 
 ## Install TensorFlow
 library(tensorflow)
-install_tensorflow(envname = "r-reticulate", version = "2.12")
+install_tensorflow(envname = "r-reticulate", version = "2.12.0")
 
 # Restart R and confirm that installation succeeded
 reticulate::use_virtualenv("r-reticulate")
