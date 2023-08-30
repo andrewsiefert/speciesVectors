@@ -121,7 +121,7 @@ saveRDS(tests, "results/glove_local_vector_test_results_w_bias.rds")
 grid <- read.csv("code/train_vectors/local/grid.csv") %>% as_tibble()
 
 # extract and combine model performance results in a single data frame
-se <- function(x) sd(x)/sqrt(length(n))
+se <- function(x) sd(x)/sqrt(length(x))
 
 out <- lapply(tests, function(m) {
   map_df(m, ~data.frame(rmse = mean(.$resample$RMSE),

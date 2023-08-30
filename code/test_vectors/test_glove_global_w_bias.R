@@ -122,7 +122,7 @@ grid <- read.csv("code/train_vectors/global/grid.csv") %>% as_tibble()
 
 # extract and combine model performance results in a single data frame
 
-se <- function(x) sd(x)/sqrt(length(n))  # standard error function
+se <- function(x) sd(x)/sqrt(length(x))  # standard error function
 
 out <- lapply(tests, function(m) {
   map_df(m, ~data.frame(rmse = mean(.$resample$RMSE),

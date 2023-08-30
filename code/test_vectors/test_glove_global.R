@@ -72,7 +72,7 @@ ggplot(enet_trait$results, aes(x = lambda, y = RMSE)) + geom_path() + facet_wrap
 saveRDS(enet_trait, "results/glove_global_trait_test_results.rds")
 
 # save model performance results
-se <- function(x) sd(x)/sqrt(length(n))  # standard error function
+se <- function(x) sd(x)/sqrt(length(x))  # standard error function
 
 trait_out <- data.frame(rmse = mean(enet_trait$resample$RMSE),
                         rmse_se = se(enet_trait$resample$RMSE),
