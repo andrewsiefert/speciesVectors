@@ -66,19 +66,16 @@ ggsave("results/figures/lenoir_vector_space.png", height = 5, width = 6.5)
 
 # Trait correlations ------------------------------------------------------
 
-trait_cor1 <- apply(d %>% select(leaf_area:wood_vessel_length), 2, function(i) cor(i, d$X2))
-trait_cor8 <- apply(d %>% select(leaf_area:wood_vessel_length), 2, function(i) cor(i, d$X9))
+vectors <- d %>% select(X2:X17)
+names(vectors) <- paste0("dim", 1:16)
 
-trait_p1 <- apply(d %>% select(leaf_area:wood_vessel_length), 2, function(i) cor.test(i, d$X2)$p.value)
-trait_p8 <- apply(d %>% select(leaf_area:wood_vessel_length), 2, function(i) cor.test(i, d$X9)$p.value)
+traits <- d %>% select(leaf_area:wood_vessel_length)
 
-trait_cor <- tibble(variable = names(trait_cor1),
-                  r1 = trait_cor1,
-                  r8 = trait_cor8,
-                  p1 = trait_p1,
-                  p8 = trait_p8)
+trait_cor <- apply(vectors, 2, function(i) apply(traits, 2, function(j) round(cor(i, j), 2)))
+trait_p <- apply(vectors, 2, function(i) apply(traits, 2, function(j) round(cor.test(i, j)$p.value, 3)))
 
-write_csv(trait_cor, "results/vector_trait_correlations.csv")
+write_csv(as.data.frame(trait_cor), "results/vector_trait_correlations.csv")
+write_csv(as.data.frame(trait_p), "results/vector_trait_correlation_p_values.csv")
 
 
 # Biogeography ------------------------------------------------------------
@@ -106,16 +103,15 @@ geo <- splot %>%
 
 d2 <- inner_join(d, geo)
 
-geo_cor1 <- apply(d2 %>% select(latitude:soil_clim_pc2), 2, function(i) cor(i, d2$X2))
-geo_cor8 <- apply(d2 %>% select(latitude:soil_clim_pc2), 2, function(i) cor(i, d2$X9))
+vectors <- d2 %>% select(X2:X17)
+names(vectors) <- paste0("dim", 1:16)
 
-geo_p1 <- apply(d2 %>% select(latitude:soil_clim_pc2), 2, function(i) cor.test(i, d2$X2)$p.value)
-geo_p8 <- apply(d2 %>% select(latitude:soil_clim_pc2), 2, function(i) cor.test(i, d2$X9)$p.value)
+geo <- d2 %>% select(latitude:soil_clim_pc2, -is_forest)
 
-geo_cor <- tibble(variable = names(geo_cor1),
-                  r1 = geo_cor1,
-                  r8 = geo_cor8,
-                  p1 = geo_p1,
-                  p8 = geo_p8)
+geo_cor <- apply(vectors, 2, function(i) apply(geo, 2, function(j) round(cor(i, j), 2)))
+geo_p <- apply(vectors, 2, function(i) apply(geo, 2, function(j) round(cor.test(i, j)$p.value, 3)))
 
-write_csv(geo_cor, "results/vector_geo_correlations.csv")
+write_csv(as.data.frame(geo_cor), "results/vector_geo_correlations.csv")
+write_csv(as.data.frame(geo_p), "results/vector_geo_correlation_p_values.csv")
+
+

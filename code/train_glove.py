@@ -10,7 +10,7 @@ import pandas as pd
 
 
 
-def train_glove(d, dim, xmax, epochs=100, alpha=0.75, lr = 0.001):
+def train_glove(d, dim, xmax, epochs=100, alpha=0.75, lr = 0.001, vb = 2):
     """
     train_glove trains the GloVe algorithm on species co-occurrence data 
 
@@ -81,7 +81,7 @@ def train_glove(d, dim, xmax, epochs=100, alpha=0.75, lr = 0.001):
     h1 = m1.fit([d.sp1.to_numpy(), d.sp2.to_numpy()], [d.co.to_numpy()],
                 epochs=epochs, batch_size=256, validation_split=0.1,
                 callbacks=[EarlyStopping(monitor='val_loss', patience=3, mode='min', restore_best_weights=True)],
-                verbose=2)
+                verbose=vb)
 
     # print minimum validation loss
     np.min(h1.history['val_loss'])
